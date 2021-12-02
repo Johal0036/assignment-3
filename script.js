@@ -7,23 +7,20 @@ const month = document.getElementById("month")
 const year = document.getElementById("year")
 const result = document.getElementById("result")
 const button = document.getElementById("button")
-
-var DateTime = luxon.DateTime;
-const now = DateTime.local()
+const now = new Date() // current date and time
 
 function calendarDate() {
-    const date = DateTime.fromObject({
+    const date = now.getDate({
         year: year.value,
         month: month.value
     })
-    // Adding days based on the month selected
-    const days = [];
-    for (let i = 1; i <= 31; i++) {
-        days.push(`<option>${i}</option>`)
-    }
-    day.innerHTML = days.join('');
-
 }
+// Adding days based on the month selected
+const days = [];
+for (let i = 1; i <= 31; i++) {
+    days.push(`<option>${i}</option>`)
+}
+day.innerHTML = days.join('');
 // Adding years to the input form
 const years = [];
 for (let i = 2021; i <= 3020; i++) {
@@ -36,17 +33,17 @@ month.addEventListener('select', calendarDate)
 //LocalStorage
 let localstorage = localStorage.getItem("result")
 if (localStorage) {
-    equation()
+    diff()
 }
 
-function equation() {
-    const now = DateTime.local()
-    const date = DateTime.fromISO(JSON.parse(localStorage.getItem("result")))
+function diff() {
+    const now = new Date()
+    //const date = now.getDate().fromISO(JSON.parse(localStorage.getItem("result")))
 
-    const diff = date.equation(now, ["year", "month", "day", "hour", "minute", "seconds"]).toObject()
+    const diff = now.getDate(now, ["year", "month", "day", "hour", "minute", "seconds"])
 }
 
-button.addEventListener('click', function (e) {
+button.addEventListener("click", function (e) {
     e.preventDefault()
     console.log("okay")
 
@@ -55,15 +52,18 @@ button.addEventListener('click', function (e) {
         month: month.value,
         day: day.value
     }))
-    equation()
-    const date = DateTime.fromObject({
+    diff()
+    const date = getDate({
         year: year.value,
         month: month.value,
         day: day.value
     })
+    const now = new Date()
+
     if (date > now) {
-        const diff = date.equation(now, ["years", "months", "days", "hours", "minutes", "seconds"]).toObject()
+        const diff = getDate(now, ["years", "months", "days", "hours", "minutes", "seconds"])
         result.style.display = "inline-block"
-        result.textContent = `${title.value}, ${diff.years} years, ${diff.months} months, ${diff.days} days, ${diff.hous} hours, ${diff.minutes} minutes, and ${diff.seconds} seconds`
+        console.log("result")
+        result.textContent = `${title.value}, ${diff.years} years, ${diff.months} months, ${diff.days} days, ${diff.hours} hours, ${diff.minutes} minutes, and ${diff.seconds} seconds`
     }
 })

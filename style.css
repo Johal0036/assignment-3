@@ -45,3 +45,23 @@ div#form {
     margin: auto;
     padding: 50px 10px;
 }
+
+@media (max-width: 800px) {
+  
+    form {
+        width: 35%;
+
+    }
+    .btn {
+        width: 135px;
+        height: 35px;
+        border-radius: 5px;
+
+    }
+    #result {
+        border-radius: 10px;
+        width: 35%;
+        margin: auto;
+        padding: 25px 5px;
+    }
+}
